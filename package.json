@@ -1,0 +1,24 @@
+{
+  "name": "scepter-command-project",
+  "version": "0.0.1",
+  "description": "SCEPTER project initialization commands",
+  "main": "index.js",
+  "repository": "git@github.com:source4societyorg/SCEPTER-command-project.git",
+  "author": "Source 4 Society <accounts@source4society.org>",
+  "license": "AGPL-3.0",
+  "private": false,
+  "scripts": {
+    "test": "eslint ./**/*.js --ignore-path .gitignore && jest --coverage",
+    "sls": "sls"
+  },
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.5.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest-cli": "^22.0.4"
+  }
+}
