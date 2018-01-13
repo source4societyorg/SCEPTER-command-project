@@ -1,6 +1,6 @@
 {
   "name": "scepter-command-project",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "SCEPTER project initialization commands",
   "main": "index.js",
   "repository": "git@github.com:source4societyorg/SCEPTER-command-project.git",

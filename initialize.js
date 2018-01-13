@@ -1,4 +1,5 @@
 'use strict'
+
 const initializeProjectCommand = {
   command: 'project:initialize',
   usage: 'project:initialize',
@@ -20,7 +21,7 @@ function generateConfigurationFunction () {
     'echo ' + JSON.stringify(this.credentials) + ' > ./config/credentials.json',
     'Generated credentials file',
     'Failed to generate credentials file',
-    this.generateParameters
+    () => this.generateParameters()
   )
 }
 
@@ -29,6 +30,7 @@ function generateParametersFunction () {
     appName: this.commandObject.inputs['projectName'],
     shell: this.commandObject.inputs['projectShell']
   }
+
   this.commandObject.executeCommand(
     'echo ' + JSON.stringify(params) + ' > ./config/parameters.json',
     'Project successfully initialized',
@@ -123,7 +125,7 @@ function callbackFunction (args, credentials, command) {
       question: 'Add an environment? (Y/N): ',
       branch: true,
       yesCallback: () => this.questions(3),
-      noCallback: this.generateConfiguration
+      noCallback: () => this.generateConfiguration()
     },
     {
       key: 'environmentName',
@@ -136,7 +138,7 @@ function callbackFunction (args, credentials, command) {
       question: 'Add a provider? (Y/N): ',
       branch: true,
       yesCallback: () => this.questions(5),
-      noCallback: this.generateEnvironmentConfiguration
+      noCallback: () => this.generateEnvironmentConfiguration()
     },
     {
       key: 'providerName',
