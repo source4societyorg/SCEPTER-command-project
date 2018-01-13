@@ -13,8 +13,11 @@ test('usage and description are defined', () => {
 
 test('callback function constructs command invokes the questions function', (done) => {
   let initializeProjectCommand = Object.assign({}, testInitializeProjectCommand)
+  const mockCommand = {
+    prepareToReceiveInput: () => 'mock'
+  }
   initializeProjectCommand.questions = () => done()
-  initializeProjectCommand.callback(undefined, undefined, undefined)
+  initializeProjectCommand.callback(undefined, undefined, mockCommand)
 })
 
 test('questions function handles nonbranched question properly', (done) => {
@@ -121,12 +124,15 @@ test('questions function handles branched question wiith invalid answer properly
 test('questions callbacks execute without problems', () => {
   let initializeProjectCommand = Object.assign({}, testInitializeProjectCommand)
   const mockCallback = () => 'do nothing'
+  const mockCommand = {
+    prepareToReceiveInput: () => 'mock'
+  }
   initializeProjectCommand.questions = mockCallback
   initializeProjectCommand.generateEnvironmentConfiguration = mockCallback
   initializeProjectCommand.providerSequence = mockCallback
   initializeProjectCommand.generateConfiguration = mockCallback
   initializeProjectCommand.validateShell = mockCallback
-  initializeProjectCommand.callback()
+  initializeProjectCommand.callback(undefined, undefined, mockCommand)
   for (let i = 0; i < initializeProjectCommand.questionList.length; i++) {
     if (typeof initializeProjectCommand.questionList[i].callback !== 'undefined') {
       initializeProjectCommand.questionList[i].callback()

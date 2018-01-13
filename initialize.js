@@ -195,6 +195,8 @@ function callbackFunction (args, credentials, command) {
       question: 'Enter your Azure password: '
     }
   ]
+
+  command.prepareToReceiveInput()
   this.questions(0)
 }
 
