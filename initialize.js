@@ -1,4 +1,5 @@
 'use strict'
+const utilities = require('@source4society/scepter-utility-lib')
 
 const initializeProjectCommand = {
   command: 'project:initialize',
@@ -12,13 +13,24 @@ const initializeProjectCommand = {
   questions: questionsFunction,
   providerSequence: providerSequenceFunction,
   providerQuestions: providerQuestionsFunction,
-  validateShell: validateShellFunction
+  validateShell: validateShellFunction,
+  utilities: utilities
 }
 
 function generateConfigurationFunction () {
+  let shell = this.utilities.isEmpty(this.commandObject.parameters) ? '' : this.commandObject.parameters.shell
+  let execCommand = ''
+  switch (shell) {
+    case 'powershell':
+      execCommand = 'echo ' + JSON.stringify(this.credentials) + ' > ./config/credentials.json'
+      break
+    default:
+      execCommand = 'echo \'' + JSON.stringify(this.credentials) + '\' > ./config/credentials.json'
+  }
+
   this.commandObject.closeInputStream()
   this.commandObject.executeCommand(
-    'echo ' + JSON.stringify(this.credentials) + ' > ./config/credentials.json',
+    execCommand,
     'Generated credentials file',
     'Failed to generate credentials file',
     () => this.generateParameters()
@@ -31,8 +43,18 @@ function generateParametersFunction () {
     shell: this.commandObject.inputs['projectShell']
   }
 
+  let shell = this.utilities.isEmpty(this.commandObject.parameters) ? '' : this.commandObject.parameters.shell
+  let execCommand = ''
+  switch (shell) {
+    case 'powershell':
+      execCommand = 'echo ' + JSON.stringify(params) + ' > ./config/parameters.json'
+      break
+    default:
+      execCommand = 'echo \'' + JSON.stringify(params) + '\' > ./config/parameters.json'
+  }
+
   this.commandObject.executeCommand(
-    'echo ' + JSON.stringify(params) + ' > ./config/parameters.json',
+    execCommand,
     'Project successfully initialized',
     'Failed to generate parameters file'
   )

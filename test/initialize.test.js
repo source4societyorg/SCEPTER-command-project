@@ -260,6 +260,33 @@ test('generateParameters creates json string and echoes it to config file', (don
       projectShell: 'testShell'
     },
     executeCommand: (command, successMessage, errorMessage, callback) => {
+      expect(command).toEqual('echo \'' + JSON.stringify(params) + '\' > ./config/parameters.json')
+      expect(successMessage.length).toBeGreaterThan(0)
+      expect(errorMessage.length).toBeGreaterThan(0)
+      expect(callback).toBeUndefined()
+      done()
+    }
+  }
+
+  initializeProjectCommand.commandObject = mockCommandObject
+  initializeProjectCommand.generateParameters()
+})
+
+test('generateParameters creates json string differently for powershell', (done) => {
+  let initializeProjectCommand = Object.assign({}, testInitializeProjectCommand)
+  const params = {
+    appName: 'testName',
+    shell: 'testShell'
+  }
+  const mockCommandObject = {
+    inputs: {
+      projectName: 'testName',
+      projectShell: 'testShell'
+    },
+    parameters: {
+      shell: 'powershell'
+    },
+    executeCommand: (command, successMessage, errorMessage, callback) => {
       expect(command).toEqual('echo ' + JSON.stringify(params) + ' > ./config/parameters.json')
       expect(successMessage.length).toBeGreaterThan(0)
       expect(errorMessage.length).toBeGreaterThan(0)
@@ -276,6 +303,28 @@ test('generateConfiguration creates json string and echoes it to config file', (
   let initializeProjectCommand = Object.assign({}, testInitializeProjectCommand)
   const mockCommandObject = {
     closeInputStream: () => 'test',
+    executeCommand: (command, successMessage, errorMessage, callbackFunc) => {
+      expect(command).toEqual('echo \'' + JSON.stringify(mockCredentials) + '\' > ./config/credentials.json')
+      expect(successMessage.length).toBeGreaterThan(0)
+      expect(errorMessage.length).toBeGreaterThan(0)
+      callbackFunc()
+    }
+  }
+  const mockGenerateParameters = () => done()
+  const mockCredentials = { environments: { test: {} } }
+  initializeProjectCommand.credentials = mockCredentials
+  initializeProjectCommand.generateParameters = mockGenerateParameters
+  initializeProjectCommand.commandObject = mockCommandObject
+  initializeProjectCommand.generateConfiguration()
+})
+
+test('generateConfiguration creates json string differently for powershell', (done) => {
+  let initializeProjectCommand = Object.assign({}, testInitializeProjectCommand)
+  const mockCommandObject = {
+    closeInputStream: () => 'test',
+    parameters: {
+      shell: 'powershell'
+    },
     executeCommand: (command, successMessage, errorMessage, callbackFunc) => {
       expect(command).toEqual('echo ' + JSON.stringify(mockCredentials) + ' > ./config/credentials.json')
       expect(successMessage.length).toBeGreaterThan(0)

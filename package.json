@@ -1,6 +1,6 @@
 {
   "name": "scepter-command-project",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SCEPTER project initialization commands",
   "main": "index.js",
   "repository": "git@github.com:source4societyorg/SCEPTER-command-project.git",
@@ -20,5 +20,8 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "jest-cli": "^22.0.4"
+  },
+  "dependencies": {
+    "@source4society/scepter-utility-lib": "^0.0.7"
   }
 }
